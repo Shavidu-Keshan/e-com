@@ -24,9 +24,7 @@ export async function createOrder(req, res) {
         const newOrderNumberString = String(newOrderNumber).padStart(5, '0');
         orderId = "CBC" + newOrderNumberString;
     }
-        // let total = 0;
-        // let labelledTotal = 0;
-        // const products = []
+        
 
     try{
         let total = 0;
@@ -55,7 +53,7 @@ export async function createOrder(req, res) {
                     labelledPrice : item.labelledPrice,
                     price : item.price
                 },
-                qty : orderInfo.products[i].quantity
+                quantity : orderInfo.products[i].quantity
              }     
 
              total += item.price * orderInfo.products[i].quantity  
