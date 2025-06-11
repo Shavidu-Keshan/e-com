@@ -5,8 +5,10 @@ import ProductRouter from "./routes/productROutes.js";
 import UserRouter from "./routes/userRoutes.js";
 import OrderRouter from "./routes/orderRoutes.js";
 import Jwt from "jsonwebtoken";
+import cors from 'cors';
 
 const app = express();
+app.use(cors())
 app.use(bodyParser.json());
 
 app.use((req,res,next) => {
@@ -40,9 +42,9 @@ mongoose.connect("mongodb+srv://admin:123@cluster0.mny4yal.mongodb.net/?retryWri
 })
 
 
-app.use("/product",ProductRouter);
-app.use("/user",UserRouter);
-app.use("/order",OrderRouter);
+app.use("/api/product",ProductRouter);
+app.use("/api/user",UserRouter);
+app.use("/api/order",OrderRouter);
 
 
 
