@@ -58,11 +58,12 @@ export function loginUser(req,res){
                         img : user.img
                     },
                     //pasword key for token can use any pasword for this
-                    "secretkey"
+                    "secretkey" // should be replaced with process.env.JWT_SECRET in production
                 )
                     res.json({
                         message: "login successfull",
                         token: token,
+                        role : user.role
                         
                     })
                 }else{
