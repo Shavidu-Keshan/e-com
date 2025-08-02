@@ -1,0 +1,95 @@
+import React from "react";
+
+export default function ProductCard({ product }) {
+  const isOutOfStock = product.stock <= 0 || !product.isAvailable;
+  const isDiscounted = product.labelledPrice > product.price;
+
+  return (
+    <div
+      className="w-72 max-w-full h-auto bg-white rounded-3xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col group relative overflow-hidden"
+      tabIndex={0}
+      aria-label={`Product card for ${product.name}`}
+    >
+      {/* Discount Badge */}
+      {isDiscounted && (
+        <span className="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow">
+          -{Math.round(((product.labelledPrice - product.price) / product.labelledPrice) * 100)}%
+        </span>
+      )}
+
+      {/* Product Image */}
+      <div className="flex items-center justify-center h-44 bg-gray-50 rounded-t-3xl overflow-hidden">
+        <img
+          src={product.images[0] || "https://via.placeholder.com/150"}
+          alt={product.name}
+          className="object-contain h-40 w-full transition-transform duration-300 group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+
+      {/* Card Content */}
+      <div className="flex flex-col flex-1 px-5 py-4">
+        {/* Product Name */}
+        <h2 className="text-lg font-bold text-gray-800 text-center mb-2 truncate" title={product.name}>
+          {product.name}
+        </h2>
+
+        {/* Description */}
+        <p className="text-gray-500 text-sm text-center line-clamp-2 mb-3">
+          {product.description}
+        </p>
+
+        {/* Price */}
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <span className="text-xl font-bold text-green-600">${product.price.toFixed(2)}</span>
+          {isDiscounted && (
+            <span className="text-base text-gray-400 line-through">${product.labelledPrice.toFixed(2)}</span>
+          )}
+        </div>
+
+        {/* Stock Status */}
+        <div className="text-center mb-4">
+          {isOutOfStock ? (
+            <span className="text-xs font-medium text-red-500 bg-red-100 px-2 py-1 rounded-full">
+              Out of stock
+            </span>
+          ) : (
+            <span className="text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">
+              In stock ({product.stock})
+            </span>
+          )}
+        </div>
+
+        {/* Bottom Buttons */}
+        <div className="flex gap-2 mt-auto">
+          <button
+            disabled={isOutOfStock}
+            className={`flex-1 py-2 rounded-lg font-semibold transition-colors
+              ${
+                isOutOfStock
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700 text-white shadow-sm"
+              }
+            `}
+            aria-disabled={isOutOfStock}
+          >
+            Add to Cart
+          </button>
+          <button
+            disabled={isOutOfStock}
+            className={`flex-1 py-2 rounded-lg font-semibold transition-colors
+              ${
+                isOutOfStock
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  : "bg-green-600 hover:bg-green-700 text-white shadow-sm"
+              }
+            `}
+            aria-disabled={isOutOfStock}
+          >
+            Buy Now
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

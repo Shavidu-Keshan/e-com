@@ -3,13 +3,23 @@ import { Link } from "react-router-dom";
 export default function Header() {
     return (
         
-            <div className="bg-[#FFFF00]">
+            <header className="w-full h-[80px] shadow-2xl flex">
+                <img src="/men.png" className="w-[40px] h-[60px] m-[5px] object-cover"/>
+                <div className="w-[calc(100%-50px)] h-full flex justify-center items-center ">
+                    <Link to="/" className="text-2xl font-bold text-black hover:text-blue-700">Home</Link>
+                    <Link to="/products" className="text-2xl font-bold text-black hover:text-blue-700 ml-5">Products</Link>
+                    <Link to="/About" className="text-2xl font-bold text-black hover:text-blue-700 ml-5">About</Link>
+
+                    <Link to="/contact" className="text-2xl font-bold text-black hover:text-blue-700 ml-5">Contact</Link>
+
+                </div>
+                <div className="w-[80px] bg-blue-500">
+
+                </div>
                 
                     
-                        <Link to="/">Home</Link>
-                        <Link to="/login">Login</Link>
-                        <Link to="/signup">Sign Up</Link>
+                        
                    
-            </div>
+            </header>
     );
 }
