@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function ProductCard({ product }) {
   const isOutOfStock = product.stock <= 0 || !product.isAvailable;
   const isDiscounted = product.labelledPrice > product.price;
 
   return (
-    <div
+    <Link to={`/overview/${product.productId}`}
       className="w-72 max-w-full h-auto bg-white rounded-3xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col group relative overflow-hidden"
       tabIndex={0}
       aria-label={`Product card for ${product.name}`}
@@ -90,6 +91,6 @@ export default function ProductCard({ product }) {
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
