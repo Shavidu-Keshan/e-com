@@ -23,7 +23,7 @@ export default function ProductPage() {
 
 
     return (
-        <div className="w-full h-full flex flex-wrap justify-center items-center bg-gray-100  p-[32px] gap-4">
+        <div className="w-full h-screen flex   bg-gray-100  p-[32px] gap-4">
             {
                 products.map((product)=>{
                     return(
@@ -31,83 +31,7 @@ export default function ProductPage() {
                     )
                 })
             }
-            {
-                products.map((product)=>{
-                    return(
-                        <ProductCard key={product.productId} product={product} />
-                    )
-                })
-            }
-            {
-                products.map((product)=>{
-                    return(
-                        <ProductCard key={product.productId} product={product} />
-                    )
-                })
-            }
-            {
-                products.map((product)=>{
-                    return(
-                        <ProductCard key={product.productId} product={product} />
-                    )
-                })
-            }
-            {
-                products.map((product)=>{
-                    return(
-                        <ProductCard key={product.productId} product={product} />
-                    )
-                })
-            }
-            {
-                products.map((product)=>{
-                    return(
-                        <ProductCard key={product.productId} product={product} />
-                    )
-                })
-            }
-            {
-                products.map((product)=>{
-                    return(
-                        <ProductCard key={product.productId} product={product} />
-                    )
-                })
-            }
-            {
-                products.map((product)=>{
-                    return(
-                        <ProductCard key={product.productId} product={product} />
-                    )
-                })
-            }
-            {
-                products.map((product)=>{
-                    return(
-                        <ProductCard key={product.productId} product={product} />
-                    )
-                })
-            }
-            {
-                products.map((product)=>{
-                    return(
-                        <ProductCard key={product.productId} product={product} />
-                    )
-                })
-            }
-            v{
-                products.map((product)=>{
-                    return(
-                        <ProductCard key={product.productId} product={product} />
-                    )
-                })
-            }
-            {
-                products.map((product)=>{
-                    return(
-                        <ProductCard key={product.productId} product={product} />
-                    )
-                })
-            }
+            
             
         </div>
     );

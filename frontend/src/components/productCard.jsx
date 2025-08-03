@@ -7,7 +7,7 @@ export default function ProductCard({ product }) {
 
   return (
     <Link to={`/overview/${product.productId}`}
-      className="w-72 max-w-full h-auto bg-white rounded-3xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col group relative overflow-hidden"
+      className="w-72 with-full min-h-[300px] h-fit bg-white rounded-3xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col group relative overflow-hidden"
       tabIndex={0}
       aria-label={`Product card for ${product.name}`}
     >
@@ -35,10 +35,7 @@ export default function ProductCard({ product }) {
           {product.name}
         </h2>
 
-        {/* Description */}
-        <p className="text-gray-500 text-sm text-center line-clamp-2 mb-3">
-          {product.description}
-        </p>
+        
 
         {/* Price */}
         <div className="flex items-center justify-center gap-2 mb-2">
@@ -49,7 +46,7 @@ export default function ProductCard({ product }) {
         </div>
 
         {/* Stock Status */}
-        <div className="text-center mb-4">
+        {/* <div className="text-center mb-4">
           {isOutOfStock ? (
             <span className="text-xs font-medium text-red-500 bg-red-100 px-2 py-1 rounded-full">
               Out of stock
@@ -59,7 +56,7 @@ export default function ProductCard({ product }) {
               In stock ({product.stock})
             </span>
           )}
-        </div>
+        </div> */}
 
         {/* Bottom Buttons */}
         <div className="flex gap-2 mt-auto">
