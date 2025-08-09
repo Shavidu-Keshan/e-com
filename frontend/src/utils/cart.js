@@ -1,9 +1,11 @@
 export function getCart(){
     let cart = localStorage.getItem('cart');
-    cart = JSON.parse(cart);
+    
     if (cart == null){
         cart = [];
         localStorage.setItem('cart', JSON.stringify(cart)); //can save only strings
+    }else{
+        cart = JSON.parse(cart);
     }
     return cart;
 
@@ -51,4 +53,15 @@ export function addToCart(product, quantity){
             localStorage.setItem('cart', JSON.stringify(cart));
         }
     }
+    
+}
+
+export function getTotalPrice() {
+    let cart = getCart();
+    let totalPrice = 0;
+
+    for (let i = 0; i < cart.length; i++) {
+        totalPrice += cart[i].price * cart[i].quantity;
+    }
+    return totalPrice;
 }

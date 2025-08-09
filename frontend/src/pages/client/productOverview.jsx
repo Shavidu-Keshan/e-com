@@ -1,13 +1,14 @@
 import axios from "axios";
 import { use, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ImageSlider from "../../components/imageSlider";
 import Loading from "../../components/loading";
 import { addToCart } from "../../utils/cart";
 
 export default function ProductOverview() {
      const params =useParams();
+     const navigate = useNavigate();
      const productId = params.productId;
      const [status, setStatus] = useState("loading");//loading, success, error
         const [product, setProduct] = useState(null);
@@ -55,7 +56,21 @@ export default function ProductOverview() {
           <p className="text-lg mb-4 text-red-700">Stock: {product.stock}</p>
           <div className="flex mt-5 gap-15">
             <button className="w-[150px] h-[50px] bg-blue-500 text-white py-2 px-4 rounded cursor-pointer hover:scale-105" onClick={() => addToCart(product, 1)}>Add to Cart</button>
-            <button className="w-[150px] h-[50px] bg-gray-500 text-white py-2 px-4 rounded ml-2 cursor-pointer hover:scale-105">Buy Now</button>
+            <button className="w-[150px] h-[50px] bg-gray-500 text-white py-2 px-4 rounded ml-2 cursor-pointer hover:scale-105"
+            onClick={() => {
+              navigate(`/checkout`, { state: { 
+                cart :[
+                  { productId: product.productId, 
+                    name: product.name,
+                    image: product.images[0],
+                    price: product.price,
+                    labelledPrice: product.labelledPrice,
+                    quantity: 1 
+                  }
+                ]
+               } });
+            }}
+            >Buy Now</button>
           </div>
         </div>
 

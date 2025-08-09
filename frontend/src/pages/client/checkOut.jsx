@@ -1,10 +1,39 @@
 import { useState } from "react";
-import { addToCart, getCart,getTotalPrice,removeFromCart } from "../../utils/cart";
 import { FaTrash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-export default function Cart() {
-  const [cart, setCart] = useState(getCart());
+export default function CheckOutPage() {
+    const location = useLocation();
+    console.log(location)
+  const [cart, setCart] = useState(location.state?.cart || []);
+
+
+  function getTotal(){
+    let total =0;
+    cart.forEach((item)=>{
+        total +=item.price *item.quantity
+    })
+    return total
+    }
+    
+  
+
+  function removeFromCart(index) {
+    const newCart = cart.filter((item, i) => i !== index);
+    setCart(newCart);
+  }
+
+  function changeQty(index,quantity){
+    const newQty = cart[index].quantity + quantity;
+    if (newQty <= 0) {
+      removeFromCart(index);
+      return;
+    } else {
+      const newCart = [...cart];
+      newCart[index].quantity = newQty;
+      setCart(newCart);
+    }
+  }
 
   return (
     <div className="w-full h-screen flex flex-col mt-10 items-center gap-6 relative ">
@@ -13,22 +42,18 @@ export default function Cart() {
           <p className="text-2xl font-bold mb-4">Total:
 
             <span>
-              {getTotalPrice().toFixed(2)}
+              {getTotal().toFixed(2)}
             </span>
           </p>
-          <Link to="/checkout" state={
-            {
-              cart:cart
-            }
-          } className="w-[150px] h-[50px] bg-blue-500 text-white py-2 px-4 rounded cursor-pointer hover:scale-105">
-            Checkout
-          </Link>
+          <button className="w-[150px] h-[50px] bg-blue-500 text-white py-2 px-4 rounded cursor-pointer hover:scale-105">
+            Place Order
+          </button>
 
           
         </div>
       </div>
       {
-        cart.map((item) => {
+        cart.map((item, index) => {
           return (
             <div
               key={item.productId}
@@ -59,16 +84,14 @@ export default function Cart() {
                 
                 <button className="w-[50px] h-[30px] bg-red-500 text-white rounded hover:scale-105"
                 onClick={() => {
-                  addToCart(item, -1);
-                  setCart(getCart());
+                  changeQty(index,-1)
                 } }>
                   -
                 </button>
                 <span className="text-lg px-2">{item.quantity}</span>
                 <button className="w-[50px] h-[30px] bg-blue-500 text-white rounded hover:scale-105"
                 onClick={() => {
-                  addToCart(item, 1);
-                  setCart(getCart());
+                  changeQty(index,1)
                 }}>
                   +
                 </button>
@@ -80,13 +103,12 @@ export default function Cart() {
                 <span className="text-lg px-2 font-semibold">LKR. {item.price * item.quantity}</span>
               </div>
               {/* remove button */}
-              <button className="absolute  bg-red-500 text-white rounded-full y-2 right-[-50px] w-[40px] h-[40px]  hover:scale-105 flex justify-center items-center"
-              onClick={() => {
-                removeFromCart(item.productId);
-                setCart(getCart());
-              }}>
-                <FaTrash />
-              </button>
+              <button
+              className="absolute bg-red-500 text-white rounded-full right-[-50px] w-[40px] h-[40px] hover:scale-105 flex justify-center items-center"
+              onClick={() => removeFromCart(index)}
+            >
+              <FaTrash />
+            </button>
             </div>
           );
         })

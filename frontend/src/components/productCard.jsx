@@ -1,7 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 
 export default function ProductCard({ product }) {
+
+  const navigate = useNavigate();
   const isOutOfStock = product.stock <= 0 || !product.isAvailable;
   const isDiscounted = product.labelledPrice > product.price;
 
@@ -83,6 +86,20 @@ export default function ProductCard({ product }) {
               }
             `}
             aria-disabled={isOutOfStock}
+
+            onClick={() => {
+              navigate(`/checkout`, { state: { 
+                cart :[
+                  { productId: product.productId, 
+                    name: product.name,
+                    image: product.images[0],
+                    price: product.price,
+                    labelledPrice: product.labelledPrice,
+                    quantity: 1 
+                  }
+                ]
+               } });
+            }}
           >
             Buy Now
           </button>
