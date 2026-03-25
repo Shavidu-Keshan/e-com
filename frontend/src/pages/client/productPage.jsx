@@ -23,7 +23,7 @@ export default function ProductPage() {
 
 
     return (
-        <div className="w-full h-screen flex   bg-gray-100  p-[50px] gap-10">
+        <div className="w-full h-screen flex   bg-gray-100  p-[40px] gap-10">
             {
                 products.map((product)=>{
                     return(
