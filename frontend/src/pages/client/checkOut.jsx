@@ -1,4 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { FaTrash } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 
@@ -6,7 +8,8 @@ export default function CheckOutPage() {
     const location = useLocation();
     console.log(location)
   const [cart, setCart] = useState(location.state?.cart || []);
-
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
 
   function getTotal(){
     let total =0;
@@ -34,24 +37,103 @@ export default function CheckOutPage() {
       setCart(newCart);
     }
   }
+  async function PlaceOrder() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("You must be logged in to place an order");
+      return;
+    }
+    const orderInformation = {
+      products : [],
+      phone: phoneNumber,
+      address: address
+    };
+
+    for (let i = 0; i < cart.length; i++) {
+      const item = {
+        productId: cart[i].productId,
+        quantity: cart[i].quantity
+      };
+      orderInformation.products[i] = item;
+    }
+
+    try {
+      const res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/order", orderInformation, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+      
+    })
+    toast.success("Order placed successfully");
+    } catch (error) {
+      console.error("Error placing order:", error);
+      toast.error("Error placing order");
+
+    }
+  }
+    
 
   return (
     <div className="w-full h-screen flex flex-col mt-10 items-center gap-6 relative ">
-      <div className="w-[400px] h-[120px] shadow-2xl absolute top-1 right-1 flex flex-col justify-center items-center rounded-3xl">
-        <div>
-          <p className="text-2xl font-bold mb-4">Total:
-
-            <span>
-              {getTotal().toFixed(2)}
-            </span>
-          </p>
-          <button className="w-[150px] h-[50px] bg-blue-500 text-white py-2 px-4 rounded cursor-pointer hover:scale-105">
-            Place Order
-          </button>
-
-          
-        </div>
+      <div className="w-[400px] p-6 shadow-2xl absolute top-1 right-1 flex flex-col justify-center items-center rounded-3xl bg-white border border-gray-100">
+  <div className="w-full space-y-6">
+    {/* Total Section */}
+    <div className="text-center pb-4 border-b border-gray-200">
+      <h2 className="text-lg font-semibold text-gray-700 mb-2">Order Summary</h2>
+      <div className="flex items-center justify-center gap-2">
+        <span className="text-2xl font-bold text-gray-800">Total:</span>
+        <span className="text-3xl font-bold text-green-600">
+          ${getTotal().toFixed(2)}
+        </span>
       </div>
+    </div>
+
+    {/* Form Section */}
+    <div className="space-y-4">
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700">
+          Phone Number
+        </label>
+        <input
+          type="tel"
+          placeholder="Enter your phone number"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200 placeholder-gray-400"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700">
+          Delivery Address
+        </label>
+        <textarea
+          placeholder="Enter your delivery address"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          rows="3"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200 placeholder-gray-400 resize-none"
+        />
+      </div>
+
+      {/* Place Order Button */}
+      <button 
+        className="w-full h-[50px] bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-3 px-6 rounded-lg cursor-pointer hover:from-blue-600 hover:to-blue-700 hover:scale-[1.02] transform transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+        onClick={PlaceOrder}
+        disabled={!phoneNumber.trim() || !address.trim()}
+      >
+        <span className="flex items-center justify-center gap-2">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6H19" />
+          </svg>
+          Place Order
+        </span>
+      </button>
+    </div>
+
+    
+  </div>
+</div>
       {
         cart.map((item, index) => {
           return (
@@ -117,3 +199,4 @@ export default function CheckOutPage() {
     </div>
   );
 }
+

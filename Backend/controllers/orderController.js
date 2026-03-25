@@ -94,3 +94,32 @@ export async function createOrder(req, res) {
         })
     }
 }
+
+
+export async function getOrders(req, res) {
+    if (req.user == null) {
+        res.status(401).json({ message: "please login and try again" });
+        return;
+    }
+
+    try {
+        if (req.user.role == "admin") {
+            const orders = await Order.find();
+            res.json({
+                message: "Orders retrieved successfully",
+                orders: orders
+            });
+        } else {
+            const orders = await Order.find({ email: req.user.email });
+            res.json({
+                message: "Orders retrieved successfully",
+                orders: orders
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to retrieve orders",
+            error: error
+        });
+    }
+}
