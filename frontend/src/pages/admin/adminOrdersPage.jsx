@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Modal from "react-modal";
+import toast from "react-hot-toast";
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -35,6 +36,40 @@ export default function AdminOrdersPage() {
         });
     }
   }, [isLoading]);
+
+  // ✅ STATUS UPDATE FUNCTION
+  async function updateStatus(newStatus) {
+    try {
+      const token = localStorage.getItem("token");
+
+      await axios.put(
+        import.meta.env.VITE_BACKEND_URL +
+          "/api/order/" +
+          orders[activeOrder].orderId +
+          "/status",
+        { status: newStatus },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      toast.success("Order status updated");
+
+      // update UI instantly
+      setOrders((prev) =>
+        prev.map((item, index) =>
+          index === activeOrder
+            ? { ...item, status: newStatus }
+            : item
+        )
+      );
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update status");
+    }
+  }
 
   return (
     <div className="w-full h-full bg-gray-50 max-h-full overflow-y-scroll relative rounded-lg">
@@ -133,16 +168,26 @@ export default function AdminOrdersPage() {
                     </table>
                   </div>
 
-                  {/* TOTAL */}
+                  {/* STATUS + TOTAL */}
                   <div className="flex justify-between items-center border-t pt-3">
-                    <p className="text-blue-600 font-semibold">
-                      Status: {orders[activeOrder].status}
-                    </p>
+
+                    {/* 🔥 STATUS DROPDOWN */}
+                    <select
+                      value={orders[activeOrder].status}
+                      onChange={(e) => updateStatus(e.target.value)}
+                      className="border border-blue-600 text-blue-600 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white transition"
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="delivered">Delivered</option>
+                      <option value="cancelled">Cancelled</option>
+                      <option value="returned">Returned</option>
+                    </select>
 
                     <p className="text-lg font-bold text-blue-600">
                       Total: Rs. {orders[activeOrder].total}
                     </p>
                   </div>
+
                 </div>
               )}
             </Modal>
@@ -170,49 +215,20 @@ export default function AdminOrdersPage() {
                       setActiveOrder(index);
                       setIsModalOpen(true);
                     }}
-                    className={`border-t border-blue-50 hover:bg-blue-50 transition cursor-pointer ${
-                      index % 2 === 0 ? "bg-white" : "bg-blue-50/30"
-                    }`}
+                    className="border-t hover:bg-blue-50 cursor-pointer"
                   >
-                    <td className="py-3 px-4 font-medium">{order.orderId}</td>
+                    <td className="py-3 px-4">{order.orderId}</td>
                     <td className="py-3 px-4">{order.email}</td>
                     <td className="py-3 px-4">{order.name}</td>
                     <td className="py-3 px-4">{order.phone}</td>
-                    <td className="py-3 px-4 max-w-[220px] truncate">
-                      {order.address}
-                    </td>
-
+                    <td className="py-3 px-4">{order.address}</td>
+                    <td className="py-3 px-4">{order.status}</td>
+                    <td className="py-3 px-4">Rs. {order.total}</td>
                     <td className="py-3 px-4">
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs ${
-                          order.status === "pending"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : order.status === "completed"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
-                        }`}
-                      >
-                        {order.status}
-                      </span>
-                    </td>
-
-                    <td className="py-3 px-4 text-blue-600 font-semibold">
-                      Rs. {order.total}
-                    </td>
-
-                    <td className="py-3 px-4 text-gray-600">
                       {new Date(order.date).toLocaleDateString()}
                     </td>
                   </tr>
                 ))}
-
-                {orders.length === 0 && (
-                  <tr>
-                    <td colSpan="8" className="text-center py-6 text-gray-500">
-                      No Orders Found
-                    </td>
-                  </tr>
-                )}
               </tbody>
             </table>
 
