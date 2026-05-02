@@ -32,13 +32,13 @@ export default function ProductOverview() {
   return (
     <>
     {status === "success" &&(
-    <div className="w-full h-screen flex">
-      <div className=" w-[50%] h-full flex justify-center items-center">
+    <div className="w-full md:h-screen md:flex ">
+      <div className=" md:w-[50%] h-full flex justify-center items-center">
         <ImageSlider images={product.images} />
       </div>
-      <div className=" w-[50%] h-full flex justify-center items-center ">
+      <div className=" m-7 md:w-[50%] h-full flex justify-center items-center ">
         <div className="w-[500px] h-[600px]  flex items-center flex-col">
-          <h1 className="text-3xl font-bold mb-4 text-5xl">{product.name}
+          <h1 className=" text-center md:text-5xl font-bold mb-4 text-4xl">{product.name}
             {
             product.altNames.map((name, index) => (
               <span key={index} className="text-gray-400 ">{" | "+name}</span>
