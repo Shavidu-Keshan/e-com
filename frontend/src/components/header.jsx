@@ -38,8 +38,33 @@ export default function Header() {
                                     <GiHamburgerMenu onClick={() => {
                                         setIsMenuOpen(!isMenuOpen)
                                     }} className="h-full text-4xl md:hidden absolute left-5 cursor-pointer"/>
+                                    <div className="w-[80px]  flex justify-center items-center h-full ml-auto ">
+                    <Link onClick={() => {
+                        setIsMenuOpen(false)
+                    }} 
+                    
+                    to="/cart" className="text-2xl  md:hidden font-bold text-white hover:text-blue-700 "><BsCart className="text-black"/></Link>  
+
+                </div>
                                     
                                     
+                            </div>
+                            <div className="w-full h-[calc(100%-80px)] flex flex-col justify-start items-start p-5 gap-5">
+                                <Link onClick={() => {
+                                    setIsMenuOpen(false)
+                                }} to="/" className="text-2xl font-bold text-black hover:text-blue-700 ml-5">Home</Link>
+                                <Link onClick={() => {
+                                    setIsMenuOpen(false)
+                                }} to="/products" className="text-2xl font-bold text-black hover:text-blue-700 ml-5">Products</Link>
+                                <Link onClick={() => {
+                                    setIsMenuOpen(false)
+                                }} to="/About" className="text-2xl font-bold text-black hover:text-blue-700 ml-5">About</Link>
+
+                                <Link onClick={() => {
+                                    setIsMenuOpen(false)
+                                }} to="/contact" className="text-2xl font-bold text-black hover:text-blue-700 ml-5">Contact</Link>
+                                
+
                             </div>
 
                         </div>
