@@ -4,6 +4,8 @@ import ProductPage from "./client/productPage";
 import ProductOverview from "./client/productOverview";
 import Cart from "./client/cart";
 import CheckOutPage from "./client/checkOut";
+import Intro from "./intro";
+import AboutPage from "./about";
 
 export default function Home() {
     return (
@@ -11,9 +13,9 @@ export default function Home() {
             <Header />
             <div className="w-full h-[calc(100vh-80ph)] flex flex-col items center">
                 <Routes path="/*">
-                    <Route path="/" element={<h1>Home</h1>} />
+                    <Route path="/" element={<Intro />} />
                     <Route path="/products" element={<ProductPage />} />
-                    <Route path="/About" element={<h1>About</h1>} />
+                    <Route path="/About" element={<AboutPage />} />
                     <Route path="/contact" element={<h1>Contact</h1>} />
                     <Route path="/overview/:productId" element={<ProductOverview />} />
                     <Route path="/cart" element={<Cart />} />
