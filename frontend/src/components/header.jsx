@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export default function Header() {
 
-    const [isMenuOpen, setIsMenuOpen] = useState(true);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
     return (
         
@@ -32,7 +32,7 @@ export default function Header() {
                 </div>
                 {
                     isMenuOpen&&
-                    <div className="fixed h-screen inset-0 w-full bg-[#00000060] md:hidden">
+                    <div className="fixed h-screen inset-0 w-full bg-[#00000060] md:hidden z-50">
                         <div className=" w-[300px] bg-white h-full">
                             <div className="w-full h-[80px] shadow-2xl relative">
                                     <GiHamburgerMenu onClick={() => {
