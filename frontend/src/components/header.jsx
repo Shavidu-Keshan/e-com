@@ -1,13 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { BsCart } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useState } from "react";
 
 export default function Header() {
+
+    const [isMenuOpen, setIsMenuOpen] = useState(true);
     const navigate = useNavigate();
     return (
         
             <header className="w-full h-[80px] shadow-2xl flex justify-center items-center relative">
-                <GiHamburgerMenu className="h-full text-4xl md:hidden absolute left-5"/>
+                <GiHamburgerMenu onClick={() => {setIsMenuOpen(true)}}
+                 className="h-full text-4xl md:hidden absolute left-5"
+                />
                 <img 
                 onClick={() => {
                     navigate("/")
@@ -25,7 +30,21 @@ export default function Header() {
                     <Link to="/cart" className="text-2xl hidden md:flex font-bold text-white hover:text-blue-700"><BsCart className="text-black"/></Link>  
 
                 </div>
-                
+                {
+                    isMenuOpen&&
+                    <div className="fixed h-screen inset-0 w-full bg-[#00000060] md:hidden">
+                        <div className=" w-[300px] bg-white h-full">
+                            <div className="w-full h-[80px] shadow-2xl relative">
+                                    <GiHamburgerMenu onClick={() => {
+                                        setIsMenuOpen(!isMenuOpen)
+                                    }} className="h-full text-4xl md:hidden absolute left-5 cursor-pointer"/>
+                                    
+                                    
+                            </div>
+
+                        </div>
+                    </div>
+                }
                     
                         
                    
