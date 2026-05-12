@@ -6,6 +6,7 @@ import Cart from "./client/cart";
 import CheckOutPage from "./client/checkOut";
 import Intro from "./intro";
 import AboutPage from "./about";
+import Contact from "./contact";
 
 export default function Home() {
     return (
@@ -16,7 +17,7 @@ export default function Home() {
                     <Route path="/" element={<Intro />} />
                     <Route path="/products" element={<ProductPage />} />
                     <Route path="/About" element={<AboutPage />} />
-                    <Route path="/contact" element={<h1>Contact</h1>} />
+                    <Route path="/contact" element={<Contact />} />
                     <Route path="/overview/:productId" element={<ProductOverview />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/checkout" element={<CheckOutPage />} />
