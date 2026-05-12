@@ -9,6 +9,7 @@ import AdminPage from './pages/adminPage'
 import TestPage from './pages/testPage'
 import { Toaster } from 'react-hot-toast'
 import Register from './pages/register'
+import AdminProtectedRoute from './components/AdminProtectedRoute'
 
 function App() {
   
@@ -22,7 +23,14 @@ function App() {
           {/* <Route path="/" element={<Home />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
-          <Route path="/admin*" element={<AdminPage />} />
+          <Route 
+            path="/admin/*" 
+            element={
+              <AdminProtectedRoute>
+                <AdminPage />
+              </AdminProtectedRoute>
+            } 
+          />
           <Route path="/testing" element={<TestPage />} />
           <Route path="/*" element={<Home />} />
         </Routes>
