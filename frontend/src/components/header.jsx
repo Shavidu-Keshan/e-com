@@ -27,9 +27,23 @@ export default function Header() {
                     <Link to="/search" className="text-2xl font-bold text-black hover:text-blue-700 ml-5">Search</Link>
 
                 </div>
-                <div className="w-[80px]  flex justify-center items-center h-full ">
+                <div className="flex justify-center items-center h-full gap-4 mr-5 md:mr-10">
                     <Link to="/cart" className="text-2xl hidden md:flex font-bold text-white hover:text-blue-700"><BsCart className="text-black"/></Link>  
-
+                    
+                    {/* Show Login or Logout dynamically based on token */}
+                    {!localStorage.getItem("token") ? (
+                        <Link to="/login" className="bg-[#4681f4] text-white px-4 py-2 rounded-lg font-bold hover:bg-[#326ee6] transition hidden md:block">Login</Link>
+                    ) : (
+                        <button 
+                            onClick={() => {
+                                localStorage.removeItem("token");
+                                window.location.reload(); // Refresh to update UI
+                            }} 
+                            className="bg-red-500 text-white px-4 py-2 rounded-lg font-bold hover:bg-red-600 transition hidden md:block"
+                        >
+                            Logout
+                        </button>
+                    )}
                 </div>
                 {
                     isMenuOpen&&
@@ -67,6 +81,22 @@ export default function Header() {
                                 <Link onClick={() => {
                                     setIsMenuOpen(false)
                                 }} to="/search" className="text-2xl font-bold text-black hover:text-blue-700 ml-5">Search</Link>
+
+                                {/* Show Login/Logout dynamically for mobile sidebar */}
+                                {!localStorage.getItem("token") ? (
+                                    <Link onClick={() => setIsMenuOpen(false)} to="/login" className="text-2xl font-bold text-[#4681f4] hover:text-[#326ee6] ml-5 mt-4">Login</Link>
+                                ) : (
+                                    <button 
+                                        onClick={() => {
+                                            setIsMenuOpen(false);
+                                            localStorage.removeItem("token");
+                                            window.location.reload(); 
+                                        }} 
+                                        className="text-2xl font-bold text-red-500 hover:text-red-700 ml-5 mt-4"
+                                    >
+                                        Logout
+                                    </button>
+                                )}
 
                             </div>
 
