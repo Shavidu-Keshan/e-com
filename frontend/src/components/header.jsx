@@ -24,6 +24,7 @@ export default function Header() {
                     <Link to="/About" className="text-2xl font-bold text-black hover:text-blue-700 ml-5">About</Link>
 
                     <Link to="/contact" className="text-2xl font-bold text-black hover:text-blue-700 ml-5">Contact</Link>
+                    <Link to="/search" className="text-2xl font-bold text-black hover:text-blue-700 ml-5">Search</Link>
 
                 </div>
                 <div className="w-[80px]  flex justify-center items-center h-full ">

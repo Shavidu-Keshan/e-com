@@ -1,0 +1,38 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import ProductCard from "../../components/productCard";
+
+export default function SearchProductPage() {
+
+    const [products, setProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(
+        () => {
+            if(isLoading){
+                axios.get(import.meta.env.VITE_BACKEND_URL + "/api/product").then(
+                    (res) => {
+                        setProducts(res.data);
+                        setIsLoading(false);
+                    }
+                )
+            }
+        },[isLoading]
+    )
+
+
+
+    return (
+        <div className="w-full md:h-screen  flex-col md:flex-row flex  bg-gray-100  p-[40px] gap-10 items-center md:items-start justify-center">
+            {
+                products.map((product)=>{
+                    return(
+                        <ProductCard key={product.productId} product={product} />
+                    )
+                })
+            }
+            
+            
+        </div>
+    );
+}
